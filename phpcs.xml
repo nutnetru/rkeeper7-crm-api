@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<ruleset name="Nutnet coding standard">
+    <rule ref="PSR1"/>
+    <rule ref="PSR2"/>
+    <file>./app</file>
+</ruleset>
