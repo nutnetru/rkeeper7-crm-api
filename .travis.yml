@@ -8,6 +8,7 @@ php:
 
 install:
   - composer config -g -- disable-tls true
+  - composer config -g secure-http false
   - composer self-update
   - composer install --dev --prefer-dist
 
