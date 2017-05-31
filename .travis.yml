@@ -7,7 +7,7 @@ php:
   - 5.3.3
 
 install:
-  - composer self-update
+  - composer config -g -- disable-tls true
   - composer install --dev --prefer-dist
 
 script:

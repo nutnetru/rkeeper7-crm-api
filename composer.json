@@ -24,8 +24,5 @@
         "phpunit/phpunit": "^4.8",
         "mockery/mockery": "^0.9",
         "squizlabs/php_codesniffer": "^2.9"
-    },
-    "config": {
-        "disable-tls": true
     }
 }
