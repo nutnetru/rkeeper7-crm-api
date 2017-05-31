@@ -11,6 +11,7 @@
     "minimum-stability": "stable",
     "require": {
         "php": ">=5.3",
+        "symfony/event-dispatcher": "~2.6.13",
         "guzzlehttp/guzzle": "^3.8"
     },
     "autoload": {
