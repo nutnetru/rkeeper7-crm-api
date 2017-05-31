@@ -10,7 +10,7 @@ install:
   - composer config -g -- disable-tls true
   - composer config -g secure-http false
   - composer self-update
-  - composer install --dev --prefer-dist
+  - composer install --prefer-dist
 
 cache:
   directories:
