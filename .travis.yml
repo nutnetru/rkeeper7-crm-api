@@ -8,7 +8,12 @@ php:
 
 install:
   - composer config -g -- disable-tls true
+  - composer self-update
   - composer install --dev --prefer-dist
+
+cache:
+  directories:
+  - vendor
 
 script:
   - php vendor/bin/phpunit --verbose
