@@ -15,7 +15,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Nutnet\\RKeeper7Api\\": "src/"
+            "Nutnet\\RKeeper7Api\\": "src/",
+            "Nutnet\\RKeeper7Api\\Tests\\": "tests/"
         }
     },
     "require-dev": {

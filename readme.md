@@ -1,5 +1,8 @@
 ## RKeeper 7 CRM API Wrapper
 
+[![Pub](https://poser.pugx.org/nutnetru/rkeeper7-crm-api/v/stable.svg)]()
+[![Travis](https://img.shields.io/travis/nutnetru/rkeeper7-crm-api.svg)]()
+
 ### Установка
 ```bash
 composer require nutnet/rkeeper7-crm-api

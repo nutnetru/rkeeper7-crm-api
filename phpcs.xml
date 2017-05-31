@@ -2,5 +2,5 @@
 <ruleset name="Nutnet coding standard">
     <rule ref="PSR1"/>
     <rule ref="PSR2"/>
-    <file>./app</file>
+    <file>./src</file>
 </ruleset>

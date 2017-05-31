@@ -54,8 +54,6 @@ class Message implements RequestMessage
 
         $doc->appendChild($msg);
 
-        var_dump($doc->saveXML()); die;
-
         return $doc->saveXML();
     }
 }

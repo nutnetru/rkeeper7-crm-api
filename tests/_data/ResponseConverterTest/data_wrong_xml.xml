@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Message Action="Get card info" Terminal_Type="123" Global_Type="ABC" Unit_ID="1"
+         User_ID="1">
+    <Is_Virtual_Card>Yes</Is_Virtual_Card>
+    <Card_Code>123456789</Card_Code>
+    <Include>Account, Account_Available, Holder, Holder_Image, Holder_Contact,
+        Holder_Address, Holder_Relative, Holder_Contract, Holder_Card, Holder_Coupon,
+        Holder_Coupon_Available, Holder_Attribute, Card_Property, Holder_Property</Include>
+    <Image_Format Original="Yes" Width="200" Height="150"
+                  Compression="75">JPEG</Image_Format>
+    <Account_Filter>
+        <Account_Class>2</Account_Class>
+        <Account_Type_ID>1</Account_Type_ID>
+    </Account_Filter>
+    <Coupon_Index>1
+    <Coupon_Count>10</Coupon_Count>
+</Message>

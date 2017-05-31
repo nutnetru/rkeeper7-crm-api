@@ -16,7 +16,7 @@ interface ResponseConverter
 {
     /**
      * @param Response $response
-     * @return array
+     * @return mixed
      */
     public function convert(Response $response);
 }
