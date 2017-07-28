@@ -27,7 +27,7 @@ abstract class RequestAbstract implements ApiRequest
      */
     public function getOptions()
     {
-        return null;
+        return array();
     }
 
     /**
