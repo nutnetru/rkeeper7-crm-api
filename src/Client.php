@@ -148,7 +148,8 @@ class Client
                 $request->getHeaders(),
                 $this->createBaseMessage($request)->__toString(),
                 $request->getOptions()
-            );
+            )
+            ->setPort($this->options['port']);
     }
 
     /**
