@@ -1,14 +1,17 @@
 {
-    "name": "nutnet/rkeeper7-crm-api",
-    "description": "Wrapper for Rkeeper 7 CRM API",
+    "name": "dskdemon/rkeeper7-crm-api",
+    "description": "Wrapper for Rkeeper 7 XML Interface",
     "type": "library",
     "authors": [
         {
             "name": "Maksim Khodyrev",
             "email": "maksim.khodyrev@nutnet.ru"
+        },
+        {
+            "name": "Dmitry Kuznetsov",
+            "email": "mydskmail@gmail.com"
         }
     ],
-    "minimum-stability": "stable",
     "require": {
         "php": ">=5.3",
         "guzzlehttp/guzzle": "^3.8"
