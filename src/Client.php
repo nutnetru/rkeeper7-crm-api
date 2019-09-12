@@ -8,7 +8,7 @@ namespace Nutnet\RKeeper7Api;
 
 use Guzzle\Http\Exception\MultiTransferException;
 use Nutnet\RKeeper7Api\Contracts\ApiRequest;
-use Guzzle\Http as Guzzle;
+use GuzzleHttp as Guzzle;
 use Nutnet\RKeeper7Api\Contracts\ResponseConverter as ResponseConverterInterface;
 use Nutnet\RKeeper7Api\Exceptions\RequestFailedException;
 
@@ -38,6 +38,7 @@ class Client
             array(
                 // адрес сервера с api
                 'server' => null,
+                'uri' => '/',
                 'port' => 80,
                 // тип терминала
                 'terminal_type' => 123,
@@ -48,7 +49,7 @@ class Client
                 // http://guzzle3.readthedocs.io/http-client/client.html#configuration-options
                 'http_client_options' => null,
                 // подготавливает ответ от апи перед передачей
-                'response_converter' => new ResponseConverter()
+                'response_converter' => new ResponseConverter(),
             ),
             $options
         );
@@ -142,14 +143,17 @@ class Client
      */
     private function createHttpRequest(ApiRequest $request)
     {
-        return $this->getHttpClient()
-            ->post(
-                null,
+        $http_client =  $this->getHttpClient();
+        $http_client->post(
+                $this->options['uri'],
                 $request->getHeaders(),
                 $this->createBaseMessage($request)->__toString(),
                 $request->getOptions()
-            )
-            ->setPort($this->options['port']);
+        );
+        $http_client->setPort($this->options['port']);
+
+        $test = 0;
+        return $http_client;
     }
 
     /**
@@ -177,8 +181,10 @@ class Client
         }
 
         return $this->httpClient = new Guzzle\Client(
-            $this->options['server'],
-            $this->options['http_client_options']
+            [
+              'base_uri' => $this->options['server'],
+              'auth' => $this->options['http_client_options']['auth']
+            ]
         );
     }
 }
