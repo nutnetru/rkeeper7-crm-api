@@ -45,7 +45,7 @@ class Message implements RequestMessage
         $doc->formatOutput = true;
         $doc->xmlStandalone = true;
 
-        $msg = $doc->createElement('Message');
+        $msg = $doc->createElement('RK7Query');
         foreach ($this->messageAttr as $attrName => $attrValue) {
             $msg->setAttribute($attrName, $attrValue);
         }

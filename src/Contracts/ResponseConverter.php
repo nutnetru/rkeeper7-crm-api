@@ -6,7 +6,7 @@
 
 namespace Nutnet\RKeeper7Api\Contracts;
 
-use Guzzle\Http\Message\Response;
+use GuzzleHttp\Psr7\Response;
 
 /**
  * Interface ResponseConverter

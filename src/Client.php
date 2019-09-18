@@ -11,6 +11,7 @@ use Nutnet\RKeeper7Api\Contracts\ApiRequest;
 use GuzzleHttp as Guzzle;
 use Nutnet\RKeeper7Api\Contracts\ResponseConverter as ResponseConverterInterface;
 use Nutnet\RKeeper7Api\Exceptions\RequestFailedException;
+use Nutnet\RKeeper7Api\Exceptions\ClientResponseConverterNotSetException;
 
 /**
  * Class Client
@@ -36,20 +37,9 @@ class Client
     {
         $this->options = array_merge(
             array(
-                // адрес сервера с api
                 'server' => null,
                 'uri' => '/',
-                'port' => 80,
-                // тип терминала
-                'terminal_type' => 123,
-                // идентификатор подразделения
-                'unit_id' => 1,
-                // идентификатор пользователя
-                'user_id' => 1,
-                // http://guzzle3.readthedocs.io/http-client/client.html#configuration-options
                 'http_client_options' => null,
-                // подготавливает ответ от апи перед передачей
-                'response_converter' => new ResponseConverter(),
             ),
             $options
         );
@@ -65,7 +55,8 @@ class Client
     {
         try {
             return $this->convertResponse(
-                $this->createHttpRequest($request)->send()
+              $this->createHttpRequest($request),
+              $request->getResponseConverter()
             );
         } catch (Guzzle\Exception\RequestException $e) {
             throw new RequestFailedException(
@@ -78,61 +69,13 @@ class Client
     }
 
     /**
-     * Выполнить параллельно несколько запросов
-     * @param array $requests
-     * @return array
-     * @throws RequestFailedException
-     */
-    public function callMulti(array $requests)
-    {
-        $context = $this;
-
-        try {
-            $responses = $this->getHttpClient()->send(
-                array_map(
-                    function ($apiReq) use ($context) {
-                        return $context->createHttpRequest($apiReq);
-                    },
-                    $requests
-                )
-            );
-        } catch (MultiTransferException $e) {
-            $errorMessages = array_map(
-                function ($err) {
-                    return $err->getMessage();
-                },
-                $e->getIterator()->getArrayCopy()
-            );
-
-            throw new RequestFailedException(
-                sprintf(
-                    "Errors by sending request: %s",
-                    implode('; ', $errorMessages)
-                )
-            );
-        }
-
-        return array_map(
-            function ($response) use ($context) {
-                return $context->convertResponse($response);
-            },
-            $responses
-        );
-    }
-
-    /**
      * @param ApiRequest $request
      * @return Message
      */
     private function createBaseMessage(ApiRequest $request)
     {
         return new Message(
-            array(
-                'Terminal_Type' => $this->options['terminal_type'],
-                'User_ID' => $this->options['user_id'],
-                'Unit_ID' => $this->options['unit_id'],
-                'Action' => $request->getAction(),
-            ),
+            array(),
             $request
         );
     }
@@ -144,31 +87,20 @@ class Client
     private function createHttpRequest(ApiRequest $request)
     {
         $http_client =  $this->getHttpClient();
-        $http_client->post(
-                $this->options['uri'],
-                $request->getHeaders(),
-                $this->createBaseMessage($request)->__toString(),
-                $request->getOptions()
-        );
-        $http_client->setPort($this->options['port']);
+        $response =  $http_client->post($this->options['uri'], [
+          'body' => $this->createBaseMessage($request)->__toString()
+        ]);
 
-        $test = 0;
-        return $http_client;
+        return $response;
     }
 
     /**
-     * @param Guzzle\Message\Response $response
-     * @return array|Guzzle\Message\Response
+     * @param \GuzzleHttp\Psr7\Response $response
+     * @return array|GuzzleHttp\Psr7\Response
      */
-    private function convertResponse(Guzzle\Message\Response $response)
+    private function convertResponse(\GuzzleHttp\Psr7\Response $response, ResponseConverterInterface $converter)
     {
-        $converter = $this->options['response_converter'];
-
-        if ($converter instanceof ResponseConverterInterface) {
-            return $converter->convert($response);
-        }
-
-        return $response;
+      return $converter->convert($response);
     }
 
     /**

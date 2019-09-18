@@ -6,8 +6,11 @@
 
 namespace Nutnet\RKeeper7Api\Requests;
 
+use Nutnet\RKeeper7Api\Contracts\ResponseConverter as ResponseConverterInterface;
+
 /**
  * Class RequestWithParamsAbstract
+ *
  * @package Nutnet\RKeeper7Api\Requests
  */
 abstract class RequestWithParamsAbstract extends RequestAbstract
@@ -17,13 +20,16 @@ abstract class RequestWithParamsAbstract extends RequestAbstract
      */
     protected $params;
 
+    protected $responseConverter;
+
     /**
      * GetCardInfoRequest constructor.
      * @param array $params
      */
-    public function __construct(array $params)
+    public function __construct(array $params, ResponseConverterInterface $converter)
     {
         $this->params = $params;
+        $this->responseConverter = $converter;
     }
 
     /**
@@ -33,5 +39,10 @@ abstract class RequestWithParamsAbstract extends RequestAbstract
     public function buildMessageBody(\DOMElement $msg)
     {
         $this->arrayToXml($this->params, $msg);
+    }
+
+    public function getResponseConverter()
+    {
+      return $this->responseConverter;
     }
 }

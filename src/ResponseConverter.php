@@ -6,7 +6,7 @@
 
 namespace Nutnet\RKeeper7Api;
 
-use Guzzle\Http\Message\Response;
+use GuzzleHttp\Psr7\Response;
 use Nutnet\RKeeper7Api\Contracts\ResponseConverter as ResponseConverterInterface;
 use Nutnet\RKeeper7Api\Exceptions\CantReadResponseException;
 
@@ -16,12 +16,16 @@ use Nutnet\RKeeper7Api\Exceptions\CantReadResponseException;
  */
 class ResponseConverter implements ResponseConverterInterface
 {
-    /**
-     * @inheritdoc
-     */
+
+  /**
+   * @param \GuzzleHttp\Psr7\Response $response
+   *
+   * @return mixed|\Nutnet\RKeeper7Api\Contracts\SimpleXMLElement|\SimpleXMLElement
+   * @throws \Nutnet\RKeeper7Api\Exceptions\CantReadResponseException
+   */
     public function convert(Response $response)
     {
-        @$xml = simplexml_load_string($response->getBody(true));
+        @$xml = simplexml_load_string($response->getBody()->getContents());
 
         if (false === $xml) {
             throw new CantReadResponseException('Error parsing xml response');
